@@ -29,7 +29,20 @@ routes.post(
 );
 routes.get("/ongs", OngController.index);
 
-routes.post("/incidents", IncidentController.create);
+routes.post(
+  "/incidents",
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      title: Joi.string().required(),
+      description: Joi.string().required(),
+      value: Joi.string().required()
+    }),
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required()
+    }).unknow()
+  }),
+  IncidentController.create
+);
 routes.get(
   "/incidents",
   celebrate({
