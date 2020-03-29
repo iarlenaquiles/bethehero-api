@@ -30,7 +30,15 @@ routes.post(
 routes.get("/ongs", OngController.index);
 
 routes.post("/incidents", IncidentController.create);
-routes.get("/incidents", IncidentController.index);
+routes.get(
+  "/incidents",
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      page: Joi.number()
+    })
+  }),
+  IncidentController.index
+);
 routes.delete(
   "/incidents/:id",
   celetrabe({
