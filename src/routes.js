@@ -59,6 +59,14 @@ routes.get(
   ProfileController.index
 );
 
-routes.post("/sessions", SessionController.create);
+routes.post(
+  "/sessions",
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      id: Joi.string().required()
+    })
+  }),
+  SessionController.create
+);
 
 module.exports = routes;
